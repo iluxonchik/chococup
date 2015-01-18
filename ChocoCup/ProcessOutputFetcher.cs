@@ -20,6 +20,7 @@ namespace ChocoCup
         public ProcessOutputFetcher(ProcessStartInfo pStartInfo)
         {
             this.pStartInfo = pStartInfo;
+            this.process = new Process();
         }
 
         public string fetch()
