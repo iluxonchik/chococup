@@ -9,34 +9,28 @@ namespace ChocoCup
 {
     class ProcessOutputFetcher
     {
-        public string ProgPath
-        {
-            set
-            { progPath = value; }
-            get
-            { return progPath; }
-        }
-
-
         public ProcessStartInfo PStartInfo
         {
             set { pStartInfo = value; }
             get { return pStartInfo; }
         }
 
-        private string progPath;
-        ProcessStartInfo pStartInfo;
-        public ProcessOutputFetcher(string progPath, ProcessStartInfo pStartInfo)
+        private ProcessStartInfo pStartInfo;
+        private Process process;
+        public ProcessOutputFetcher(ProcessStartInfo pStartInfo)
         {
             this.pStartInfo = pStartInfo;
-            this.progPath = progPath;
         }
 
         public string fetch()
         {
             /*  Fetch the output from the process */
-            // TODO
-            return null;
+            process.StartInfo = pStartInfo;
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+
+            return output;
         }
         /* TODO:
          * 1. Make sure that program is run as admin
