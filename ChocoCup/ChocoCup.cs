@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace ChocoCup
 {
-    class ChocoCup
+    class ChocoCup : IVisitable
     {
         private const string LIST_PACKGES_COMMAND = "list";
         private const string LIST_LOCAL_PACKAGAES_ONLY_OPT = "-localonly";
@@ -76,5 +76,10 @@ namespace ChocoCup
             return startInfo;
         }
 
+
+        public List<string> accept(IVisitor visitor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

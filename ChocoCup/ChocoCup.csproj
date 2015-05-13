@@ -42,10 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChocoCup.cs" />
+    <Compile Include="FullPackageParserVisitor.cs" />
+    <Compile Include="NameOnlyPackageParserVisitor.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ProcessOutputFetcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IVisitable.cs" />
+    <Compile Include="IVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
