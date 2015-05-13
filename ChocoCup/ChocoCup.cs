@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ChocoCup
 {
@@ -10,14 +11,70 @@ namespace ChocoCup
     {
         private const string LIST_PACKGES_COMMAND = "list";
         private const string LIST_LOCAL_PACKAGAES_ONLY_OPT = "-localonly";
+        private const string DEFAULT_CHOCO_PATH = @"C:\ProgramData\chocolatey\bin\choco.exe";
 
+        private ProcessStartInfo pStartInfo;
+        private string chocoPath;
+  
         private string args; // command-line arguments
-        public ChocoCup(string args) 
+        public ChocoCup(string args, string chocoPath) 
         {
-            this.args = LIST_PACKGES_COMMAND + LIST_LOCAL_PACKAGAES_ONLY_OPT;
-            this.args += args; 
+            this.args = LIST_PACKGES_COMMAND + " " + LIST_LOCAL_PACKAGAES_ONLY_OPT;
+            
+            if (args != null)
+                this.args += args;
+
+            if (chocoPath != null)
+                this.chocoPath = chocoPath;
+            else
+                this.chocoPath = DEFAULT_CHOCO_PATH;
+
+            pStartInfo = ProcessStartInfoBuilder();
         }
-        public ChocoCup() : this("") { }
+        public ChocoCup() : this(null, null) { }
+        public ChocoCup(string args) : this(args, null) { }
+
+        public List<String> getPackageNames()
+        {
+            string result;
+            string[] splitResult;
+
+            List<String> packages = new List<String>();
+            ProcessOutputFetcher pof = new ProcessOutputFetcher(pStartInfo, true);
+
+            try
+            {
+                result = pof.fetch();
+                splitResult = result.Split(new string[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string s in splitResult)
+                {
+                    packages.Add(s);
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                // TODO: throw exceptions, specify exceptions
+                Console.WriteLine(e.Message);
+            }
+
+            return packages;
+        }
+
+        private ProcessStartInfo ProcessStartInfoBuilder()
+        {
+            /* Builds the default Process Start Info */
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+
+            startInfo.FileName = chocoPath;
+            startInfo.Arguments = args;
+            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = true;
+
+            return startInfo;
+        }
 
     }
 }

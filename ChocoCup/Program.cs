@@ -11,7 +11,11 @@ namespace ChocoCup
     {
         static void Main(string[] args)
         {
-           
+            ChocoCup cc = new ChocoCup();
+            List<String> l = cc.getPackageNames();
+            foreach(string s in l)
+                Console.WriteLine(s);
+            Console.ReadLine();
         }
     }
 }
