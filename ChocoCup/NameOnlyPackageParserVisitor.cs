@@ -13,7 +13,15 @@ namespace ChocoCup
          */
         public List<string> visit(ChocoCup cc)
         {
-            throw new NotImplementedException();
+            List<String> packages = cc.accept(new FullPackageParserVisitor());
+            int numPackages = packages.Count;
+
+            for (int i = 0; i < numPackages; i++)
+            {
+                packages[i] = packages[i].Substring(0, packages[i].IndexOf(' '));
+            }
+
+            return packages;
         }
     }
 }

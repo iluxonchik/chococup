@@ -34,7 +34,7 @@ namespace ChocoCup
         public ChocoCup() : this(null, null) { }
         public ChocoCup(string args) : this(args, null) { }
 
-        public List<String> getPackageNames()
+        public List<String> getProcessOutput()
         {
             string result;
             string[] splitResult;
@@ -79,7 +79,7 @@ namespace ChocoCup
 
         public List<string> accept(IVisitor visitor)
         {
-            throw new NotImplementedException();
+            return visitor.visit(this);
         }
     }
 }
