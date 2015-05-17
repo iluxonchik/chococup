@@ -34,7 +34,7 @@ namespace ChocoCup
         public ChocoCup() : this(null, null) { }
         public ChocoCup(string args) : this(args, null) { }
 
-        public List<String> getProcessOutput()
+        public List<String> GetProcessOutput()
         {
             string result;
             string[] splitResult;
@@ -44,7 +44,7 @@ namespace ChocoCup
 
             try
             {
-                result = pof.fetch();
+                result = pof.Fetch();
                 splitResult = result.Split(new string[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string s in splitResult)
@@ -77,9 +77,9 @@ namespace ChocoCup
         }
 
 
-        public List<string> accept(IVisitor visitor)
+        public List<string> Accept(IVisitor visitor)
         {
-            return visitor.visit(this);
+            return visitor.Visit(this);
         }
     }
 }

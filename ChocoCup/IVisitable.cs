@@ -8,6 +8,6 @@ namespace ChocoCup
 {
     interface IVisitable
     {
-        List<String> accept(IVisitor visitor);
+        List<String> Accept(IVisitor visitor);
     }
 }

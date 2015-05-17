@@ -23,13 +23,13 @@ namespace ChocoCup
         public ProcessOutputFetcher(ProcessStartInfo pStartInfo, bool requireAdmin)
         {
             if (requireAdmin)
-                checkAdminPermissions();
+                CheckAdminPermissions();
 
             this.pStartInfo = pStartInfo;
             this.process = new Process();
         }
 
-        public string fetch()
+        public string Fetch()
         {
             /*  Fetch the output from the process */
             string output = null;
@@ -50,7 +50,7 @@ namespace ChocoCup
             return output;
         }
 
-        private void checkAdminPermissions()
+        private void CheckAdminPermissions()
         {
             // TODO
         }

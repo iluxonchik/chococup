@@ -13,9 +13,9 @@ namespace ChocoCup
          */
         private const string CHOCOLATEY_NAME = "Chocolatey";
 
-        public List<string> visit(ChocoCup cc)
+        public List<string> Visit(ChocoCup cc)
         {
-            List<String> packages = cc.getProcessOutput();
+            List<String> packages = cc.GetProcessOutput();
             int numPackages = packages.Count;
             int index = 0;
             Queue<string> itemsToRemove = new Queue<String>();
