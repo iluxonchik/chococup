@@ -15,6 +15,8 @@ namespace ChocoCup
 
         public List<string> Visit(ChocoCup cc)
         {
+            const char SEPARATOR = ' ';
+            const string VERSION_OPT = "-version ";
             List<String> packages = cc.GetProcessOutput();
             int numPackages = packages.Count;
             int index = 0;
@@ -30,7 +32,15 @@ namespace ChocoCup
             itemsToRemove.Enqueue(packages[index]); // remove chocolatey string version
             itemsToRemove.Enqueue(packages[numPackages-1]); // remove number of packages installed message
 
-            packages = packages.Except(itemsToRemove).ToList<String>();
+            packages = packages.Except(itemsToRemove).ToList();
+
+            numPackages = packages.Count;
+
+            for (int i = 0; i < numPackages; i++)
+            {
+                int indexOfSeparator = packages[i].IndexOf(SEPARATOR);
+                packages[i] = packages[i].Substring(0, indexOfSeparator) + " " + VERSION_OPT + packages[i].Substring(indexOfSeparator + 1);
+            }
 
             return packages;
         }
