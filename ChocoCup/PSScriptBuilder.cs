@@ -35,7 +35,7 @@ namespace ChocoCup
 
             if (numPack > 0)
             {
-                sw.Write("\"" + packages.ElementAt(i) + "\"" + PS_ARRAY_END);
+                sw.WriteLine("\"" + packages.ElementAt(i) + "\"" + PS_ARRAY_END);
             }
             else
             {
@@ -53,7 +53,7 @@ namespace ChocoCup
             sw.WriteLine(FOR_BEGIN);
             for (int i = 0; i < numPack; i++)
             {
-                sw.WriteLine(PS_IEX + CHOCO_COMMAND + col.ElementAt(i));
+                sw.WriteLine(PS_IEX +  "\"" + CHOCO_COMMAND + col.ElementAt(i) + "\"");
             }
             sw.WriteLine("}");
         }

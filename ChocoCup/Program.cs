@@ -11,7 +11,9 @@ namespace ChocoCup
     {
         static void Main(string[] args)
         {
-
+            PSScriptBuilder<string> ps = new PSScriptBuilder<string>(new ChocoCup().Accept(new FullPackageParserVisitor()));
+            Console.WriteLine(ps.BuildScript());
+            Console.ReadLine();
         }
     }
 }
