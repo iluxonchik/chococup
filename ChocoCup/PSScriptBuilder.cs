@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ChocoCup
 {
-    class PSScriptBuilder<T>
+    class PSScriptBuilder<T> : IDisposable
     {
         private ICollection<T> packages;
         private string tempFile = null;
@@ -60,7 +60,6 @@ namespace ChocoCup
 
         public string BuildScript() 
         {
-            // TODO: Delete temp file
             tempFile = Path.GetTempFileName();
             StreamWriter sw = new StreamWriter(tempFile);
             WritePSArrayToSW(packages, sw);
@@ -69,5 +68,41 @@ namespace ChocoCup
 
             return tempFile;
         }
-     }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resourses
+                }
+
+                // Dispose unmanaged resources
+
+                if (File.Exists(tempFile))
+                {
+                    File.Delete(tempFile);
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        ~PSScriptBuilder() {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            // Flag that the Finalizer doesn't have to be run, so that GC can
+            // reclaim the memory right away
+            GC.SuppressFinalize(this);
+        }
+        #endregion
+    }
 }
