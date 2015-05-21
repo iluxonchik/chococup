@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
 
 namespace ChocoCup
 {
@@ -17,7 +18,7 @@ namespace ChocoCup
         private string chocoPath;
   
         private string args; // command-line arguments
-        public ChocoCup(string args, string chocoPath) 
+        public ChocoCup(string chocoPath, string args) 
         {
             this.args = LIST_PACKGES_COMMAND + " " + LIST_LOCAL_PACKAGAES_ONLY_OPT;
             
@@ -32,7 +33,7 @@ namespace ChocoCup
             pStartInfo = ProcessStartInfoBuilder();
         }
         public ChocoCup() : this(null, null) { }
-        public ChocoCup(string args) : this(args, null) { }
+        public ChocoCup(string args) : this(null, args) { }
 
         public List<String> GetProcessOutput()
         {
@@ -81,5 +82,9 @@ namespace ChocoCup
         {
             return visitor.Visit(this);
         }
+
+
+
+        
     }
 }

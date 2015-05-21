@@ -58,15 +58,18 @@ namespace ChocoCup
             sw.WriteLine("}");
         }
 
-        public string BuildScript() 
+        public void BuildScript(StreamWriter sw = null) 
         {
-            tempFile = Path.GetTempFileName();
-            StreamWriter sw = new StreamWriter(tempFile);
+            if (sw == null)
+            {
+                // No StreamWriter was passed, create a new temp file
+                tempFile = Path.GetTempFileName();
+                sw = new StreamWriter(tempFile);
+            }
+
             WritePSArrayToSW(packages, sw);
             WritePSForToSW(packages, sw);
             sw.Close();
-
-            return tempFile;
         }
 
         #region IDisposable Support
