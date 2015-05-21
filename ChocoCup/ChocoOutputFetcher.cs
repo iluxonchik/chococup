@@ -8,7 +8,7 @@ using System.IO;
 
 namespace ChocoCup
 {
-    class ChocoCup : IVisitable
+    class ChocoOutputFetcher : IVisitable
     {
         private const string LIST_PACKGES_COMMAND = "list";
         private const string LIST_LOCAL_PACKAGAES_ONLY_OPT = "-localonly";
@@ -18,7 +18,7 @@ namespace ChocoCup
         private string chocoPath;
   
         private string args; // command-line arguments
-        public ChocoCup(string chocoPath, string args) 
+        public ChocoOutputFetcher(string chocoPath, string args) 
         {
             this.args = LIST_PACKGES_COMMAND + " " + LIST_LOCAL_PACKAGAES_ONLY_OPT;
             
@@ -32,8 +32,8 @@ namespace ChocoCup
 
             pStartInfo = ProcessStartInfoBuilder();
         }
-        public ChocoCup() : this(null, null) { }
-        public ChocoCup(string args) : this(null, args) { }
+        public ChocoOutputFetcher() : this(null, null) { }
+        public ChocoOutputFetcher(string args) : this(null, args) { }
 
         public List<String> GetProcessOutput()
         {
@@ -82,9 +82,6 @@ namespace ChocoCup
         {
             return visitor.Visit(this);
         }
-
-
-
         
     }
 }
