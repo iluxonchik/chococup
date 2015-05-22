@@ -12,7 +12,8 @@ namespace ChocoCup
     {
         static void Main(string[] args)
         {
-
+            ChocoCup cs = new ChocoCup();
+            cs.Run();
         }
     }
 }

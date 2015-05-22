@@ -11,7 +11,7 @@ namespace ChocoCup
         /* 
          * Includes package names only 
          */
-        public List<string> Visit(ChocoCup cc)
+        public List<string> Visit(ChocoOutputFetcher cc)
         {
             List<String> packages = cc.Accept(new FullPackageParserVisitor());
             int numPackages = packages.Count;

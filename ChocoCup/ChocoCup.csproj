@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChocoCup.cs" />
+    <Compile Include="ChocoOutputFetcher.cs" />
     <Compile Include="FullPackageParserVisitor.cs" />
     <Compile Include="NameOnlyPackageParserVisitor.cs" />
     <Compile Include="ProcessOutputFetcher.cs" />

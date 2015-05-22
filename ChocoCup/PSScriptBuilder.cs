@@ -53,7 +53,7 @@ namespace ChocoCup
             sw.WriteLine(FOR_BEGIN);
             for (int i = 0; i < numPack; i++)
             {
-                sw.WriteLine(PS_IEX +  "\"" + CHOCO_COMMAND + col.ElementAt(i) + "\"");
+                sw.WriteLine("\t" + PS_IEX +  "\"" + CHOCO_COMMAND + col.ElementAt(i) + "\"");
             }
             sw.WriteLine("}");
         }

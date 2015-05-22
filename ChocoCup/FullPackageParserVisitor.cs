@@ -13,7 +13,7 @@ namespace ChocoCup
          */
         private const string CHOCOLATEY_NAME = "Chocolatey";
 
-        public List<string> Visit(ChocoCup cc)
+        public List<string> Visit(ChocoOutputFetcher cc)
         {
             const char SEPARATOR = ' ';
             const string VERSION_OPT = "-version ";

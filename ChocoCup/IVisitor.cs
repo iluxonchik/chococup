@@ -8,6 +8,6 @@ namespace ChocoCup
 {
     interface IVisitor
     {
-        List<string> Visit(ChocoCup cc);
+        List<string> Visit(ChocoOutputFetcher cc);
     }
 }
