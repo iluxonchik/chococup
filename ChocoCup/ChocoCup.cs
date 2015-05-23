@@ -9,21 +9,21 @@ namespace ChocoCup
 {
     class ChocoCup
     {
+        internal delegate void ScriptAction(string fileName);
 
         public IVisitor Visitor { get; set; }
 
         IVisitor visitor = null;
         readonly Type DEFAULT_VISITOR = typeof(NameOnlyPackageParserVisitor);
-
         private string outputFilePath = null;
-
         private ChocoOutputFetcher chocoOutput = null;
         private PSScriptBuilder<string> psScriptBuilder = null;
-        private delegate void ScriptAction(string fileName);
+        ScriptAction scriptAction;
 
         public ChocoCup(string args = null)
         {
-                  
+            // For testing purposes
+            scriptAction += PrintScriptToConsole;
         }
 
         public List<string> GetPacakgeNames(IVisitor visitor, string chocoPath = null, string args = null)
@@ -51,10 +51,14 @@ namespace ChocoCup
             psScriptBuilder = new PSScriptBuilder<string>(cof.Accept(Visitor));
             psScriptBuilder.BuildScript();
 
+            if (scriptAction != null)
+            {
+                scriptAction(psScriptBuilder.TempFile);
+            }
             // TODO
         }
 
-        private void PintScriptToConsole(string filePath)
+        private void PrintScriptToConsole(string filePath)
         {
             string dataRead;
 
@@ -67,10 +71,16 @@ namespace ChocoCup
             }
         }
 
-        private void SaveScriptToFile(PSScriptBuilder<string> psScriptBuilder)
+        private void SaveScriptToFile(string filePath)
         {
             string destFileName = Console.ReadLine();
-            File.Copy(psScriptBuilder.TempFile, destFileName);
+            string destDirectory = Path.GetDirectoryName(destFileName);
+
+            if (!Directory.Exists(destDirectory))
+            {
+                Directory.CreateDirectory(destDirectory);
+            }
+            File.Copy(filePath, destFileName);
         }
 
         private void GenerateScriptToConsole(PSScriptBuilder<string> psScriptBuilder)
