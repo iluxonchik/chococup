@@ -9,21 +9,14 @@ namespace ChocoCup
 {
     class ChocoCup
     {
-        internal delegate void ScriptAction(string fileName);
-
-        public IVisitor Visitor { get; set; }
-
-        IVisitor visitor = null;
-        readonly Type DEFAULT_VISITOR = typeof(NameOnlyPackageParserVisitor);
         private string outputFilePath = null;
         private ChocoOutputFetcher chocoOutput = null;
         private PSScriptBuilder<string> psScriptBuilder = null;
-        ScriptAction scriptAction;
+        private string[] args;
 
-        public ChocoCup(string args = null)
+        public ChocoCup(string[] args = null)
         {
-            // For testing purposes
-            scriptAction += PrintScriptToConsole;
+            this.args = args;
         }
 
         public List<string> GetPacakgeNames(IVisitor visitor, string chocoPath = null, string args = null)
@@ -41,21 +34,53 @@ namespace ChocoCup
 
         public void Run()
         {
-            // TODO: parse arguments
-
-            if (Visitor == null)
-            {
-                Visitor = (IVisitor)Activator.CreateInstance(DEFAULT_VISITOR);
-            }
+            ChocoCupOptions copt = ArgumentParser.Parse(args);
+            IVisitor visitor = (IVisitor)Activator.CreateInstance(copt.Visitor);
             ChocoOutputFetcher cof = new ChocoOutputFetcher();
-            psScriptBuilder = new PSScriptBuilder<string>(cof.Accept(Visitor));
-            psScriptBuilder.BuildScript();
 
-            if (scriptAction != null)
+            psScriptBuilder = new PSScriptBuilder<string>(cof.Accept(visitor));
+            psScriptBuilder.BuildScript();
+            outputFilePath = copt.OutFilePath;
+
+            if(copt.PrintScript)
             {
-                scriptAction(psScriptBuilder.TempFile);
+                PrintScriptToConsole(psScriptBuilder.TempFile);
             }
-            // TODO
+
+            bool fileSaved = false;
+            while(!fileSaved) {
+                try
+                {
+                    Console.WriteLine(outputFilePath);
+                    SaveScriptToFile(outputFilePath);
+                    fileSaved = true;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    Console.WriteLine("You don't have permission to create files/directories at {0}", outputFilePath);
+                    Console.WriteLine("Tip: Try running the program as an administrator or select a different path.");
+                    Console.WriteLine("Script file output path(including name and extension):");
+                    outputFilePath = null;
+
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("An error ocurred while copying the file. Please try a different name. (Maybe a file with that name already exists?)");
+                    Console.WriteLine("Script file output path(including name and extension):");
+                    outputFilePath = null;
+                }
+                catch (ArgumentNullException)
+                {
+                    Console.WriteLine("Script file output path(including name and extension):");
+                    outputFilePath = null;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error ocurred while copying the file. Please try a different name.");
+                    Console.WriteLine("Script file output path(including name and extension):");
+                    outputFilePath = null;
+                }
+            }
         }
 
         private void PrintScriptToConsole(string filePath)
@@ -71,16 +96,18 @@ namespace ChocoCup
             }
         }
 
-        private void SaveScriptToFile(string filePath)
+        private void SaveScriptToFile(string filePath, bool replaceFile = false)
         {
-            string destFileName = Console.ReadLine();
-            string destDirectory = Path.GetDirectoryName(destFileName);
+            if (filePath == null)
+                filePath = Console.ReadLine();
+
+            string destDirectory = Path.GetDirectoryName(filePath);
 
             if (!Directory.Exists(destDirectory))
             {
                 Directory.CreateDirectory(destDirectory);
             }
-            File.Copy(filePath, destFileName);
+            File.Copy(psScriptBuilder.TempFile, filePath, replaceFile);
         }
 
         private void GenerateScriptToConsole(PSScriptBuilder<string> psScriptBuilder)

@@ -46,6 +46,7 @@
     <Compile Include="ChocoCupOptions.cs" />
     <Compile Include="ChocoOutputFetcher.cs" />
     <Compile Include="FullPackageParserVisitor.cs" />
+    <Compile Include="InvalidArgumentsException.cs" />
     <Compile Include="NameOnlyPackageParserVisitor.cs" />
     <Compile Include="ProcessOutputFetcher.cs" />
     <Compile Include="Program.cs" />

@@ -8,6 +8,7 @@ namespace ChocoCup
 {
     static class ArgumentParser
     {
+        private const string INC_VERSION_OPT = "-v";
         private const string CHOCO_PATH_OPT = "-c";
         private const string OUT_FILE_OPT = "-f";
         private const string PRINT_OPT = "-p";
@@ -16,6 +17,9 @@ namespace ChocoCup
 
         public static ChocoCupOptions Parse(string[] args)
         {
+            if (args == null)
+                return null;
+
             ChocoCupOptions copt = new ChocoCupOptions();
 
             int numArgs = args.Length;
@@ -34,6 +38,10 @@ namespace ChocoCup
 
                     case PRINT_OPT:
                         copt.PrintScript = true;
+                        break;
+
+                    case INC_VERSION_OPT:
+                        copt.Visitor = copt.FULL_NAME_VISITOR;
                         break;
 
                     default:
