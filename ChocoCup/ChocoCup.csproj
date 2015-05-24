@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ArgumentParser.cs" />
     <Compile Include="ChocoCup.cs" />
+    <Compile Include="ChocoCupOptions.cs" />
     <Compile Include="ChocoOutputFetcher.cs" />
     <Compile Include="FullPackageParserVisitor.cs" />
     <Compile Include="NameOnlyPackageParserVisitor.cs" />
