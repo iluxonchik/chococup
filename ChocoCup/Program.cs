@@ -14,8 +14,13 @@ namespace ChocoCup
         {
      
            ChocoCup cs = new ChocoCup(args);
+            try { 
            cs.Run();
-               
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

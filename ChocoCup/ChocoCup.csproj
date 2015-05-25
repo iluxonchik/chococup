@@ -49,6 +49,7 @@
     <Compile Include="InvalidArgumentsException.cs" />
     <Compile Include="NameOnlyPackageParserVisitor.cs" />
     <Compile Include="ProcessOutputFetcher.cs" />
+    <Compile Include="ProcessOutputFetcherException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IVisitable.cs" />

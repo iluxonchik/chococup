@@ -36,7 +36,7 @@ namespace ChocoCup
         {
             ChocoCupOptions copt = ArgumentParser.Parse(args);
             IVisitor visitor = (IVisitor)Activator.CreateInstance(copt.Visitor);
-            ChocoOutputFetcher cof = new ChocoOutputFetcher();
+            ChocoOutputFetcher cof = new ChocoOutputFetcher(copt.ChocoPath);
 
             psScriptBuilder = new PSScriptBuilder<string>(cof.Accept(visitor));
             psScriptBuilder.BuildScript();
@@ -59,25 +59,25 @@ namespace ChocoCup
                 {
                     Console.WriteLine("You don't have permission to create files/directories at {0}", outputFilePath);
                     Console.WriteLine("Tip: Try running the program as an administrator or select a different path.");
-                    Console.WriteLine("Script file output path(including name and extension):");
+                    PrintFileNameRequestMsg();
                     outputFilePath = null;
 
                 }
                 catch (IOException)
                 {
                     Console.WriteLine("An error ocurred while copying the file. Please try a different name. (Maybe a file with that name already exists?)");
-                    Console.WriteLine("Script file output path(including name and extension):");
+                    PrintFileNameRequestMsg();
                     outputFilePath = null;
                 }
                 catch (ArgumentNullException)
                 {
-                    Console.WriteLine("Script file output path(including name and extension):");
+                    Console.Write("Script file output path(including name and extension):");
                     outputFilePath = null;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("An error ocurred while copying the file. Please try a different name.");
-                    Console.WriteLine("Script file output path(including name and extension):");
+                    PrintFileNameRequestMsg();
                     outputFilePath = null;
                 }
             }
@@ -119,5 +119,7 @@ namespace ChocoCup
             psScriptBuilder.BuildScript(sw);
             Console.SetOut(Console.Out);
         }
+
+        private void PrintFileNameRequestMsg() { Console.Write("Script file output path (including name and extension):"); }
     }
 }

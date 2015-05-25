@@ -33,7 +33,7 @@ namespace ChocoCup
             pStartInfo = ProcessStartInfoBuilder();
         }
         public ChocoOutputFetcher() : this(null, null) { }
-        public ChocoOutputFetcher(string args) : this(null, args) { }
+        public ChocoOutputFetcher(string chocoPath) : this(chocoPath, null) { }
 
         public List<String> GetProcessOutput()
         {
@@ -41,24 +41,15 @@ namespace ChocoCup
             string[] splitResult;
 
             List<String> packages = new List<String>();
-            ProcessOutputFetcher pof = new ProcessOutputFetcher(pStartInfo, true);
+            ProcessOutputFetcher pof = new ProcessOutputFetcher(pStartInfo);
 
-            try
+
+            result = pof.Fetch();
+            splitResult = result.Split(new string[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string s in splitResult)
             {
-                result = pof.Fetch();
-                splitResult = result.Split(new string[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string s in splitResult)
-                {
-                    packages.Add(s);
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                // TODO: throw exceptions, specify exceptions
-                Console.WriteLine(e.Message);
+                packages.Add(s);
             }
 
             return packages;

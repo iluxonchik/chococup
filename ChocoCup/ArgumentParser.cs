@@ -12,8 +12,8 @@ namespace ChocoCup
         private const string CHOCO_PATH_OPT = "-c";
         private const string OUT_FILE_OPT = "-f";
         private const string PRINT_OPT = "-p";
-        private const string INVALID_ARGUMENTS_MESSAGE = @"There was an error parsing the command line arguments. 
-                                                            Please make sure you followed the correct format.";
+        private const string INVALID_ARGUMENTS_MESSAGE = "There was an error parsing the command line arguments." + 
+                                                            "Please make sure you followed the correct format.";
 
         public static ChocoCupOptions Parse(string[] args)
         {
