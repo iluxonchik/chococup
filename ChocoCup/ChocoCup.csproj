@@ -55,6 +55,8 @@
     <Compile Include="IVisitable.cs" />
     <Compile Include="IVisitor.cs" />
     <Compile Include="PSScriptBuilder.cs" />
+    <Compile Include="UnsupportedVersionException.cs" />
+    <Compile Include="VersionParserVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -8,6 +8,7 @@ namespace ChocoCup
 {
     static class ArgumentParser
     {
+        private const string IGONORE_CHOCO_VER_OPT = "-i";
         private const string INC_VERSION_OPT = "-v";
         private const string CHOCO_PATH_OPT = "-c";
         private const string OUT_FILE_OPT = "-f";
@@ -42,6 +43,10 @@ namespace ChocoCup
 
                     case INC_VERSION_OPT:
                         copt.Visitor = copt.FULL_NAME_VISITOR;
+                        break;
+
+                    case IGONORE_CHOCO_VER_OPT:
+                        copt.IgnoreChocoVersion = true;
                         break;
 
                     default:

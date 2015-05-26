@@ -12,6 +12,8 @@ namespace ChocoCup
         private string outputFilePath = null;
         private ChocoOutputFetcher chocoOutput = null;
         private PSScriptBuilder<string> psScriptBuilder = null;
+        private const string CHOCO_VERSION_OPT = "--version";
+        private const string CHOCO_SUPPORTED_VERSION = "0.9.9.6";
         private string[] args;
 
         public ChocoCup(string[] args = null)
@@ -32,11 +34,53 @@ namespace ChocoCup
             return psScriptBuilder.TempFile;
         }
 
+        public void CheckCurrentChocoVersion(ChocoCupOptions copt)
+        {
+            ChocoOutputFetcher cof = new ChocoOutputFetcher(copt.ChocoPath, CHOCO_VERSION_OPT);
+            string currVer = cof.Accept(new VersionParserVisitor())[0];
+
+            if (currVer != CHOCO_SUPPORTED_VERSION)
+            {
+                /* This doesn't really work if multiple versions are to be supported
+                   A better approach would probably be to return a version-specific
+                    visitor.
+                */
+                bool userAnswered = false;
+                Console.WriteLine("You are using Chocolatey version {0}. This tool is designed to work with {1}.", currVer, CHOCO_SUPPORTED_VERSION);
+                Console.WriteLine("Do you want to run the tool anyway? (y/n)");
+                while (!userAnswered)
+                {
+                    string userAnswer = Console.ReadLine();
+                    switch (userAnswer)
+                    {
+                        case "yes":
+                        case "y":
+                            userAnswered = true;
+                            break;
+                        case "no":
+                        case "n":
+                            userAnswered = true;
+                            throw new UnsupportedVersionException("This tool is designed to work with Chocolater v." + CHOCO_SUPPORTED_VERSION + 
+                                " You are running Chocolatey v." + currVer);
+                        default:
+                            Console.WriteLine("Please type 'y' or 'n'");
+                            break;
+                    }
+                }
+
+            }
+        }
+
         public void Run()
         {
             ChocoCupOptions copt = ArgumentParser.Parse(args);
-            IVisitor visitor = (IVisitor)Activator.CreateInstance(copt.Visitor);
-            ChocoOutputFetcher cof = new ChocoOutputFetcher(copt.ChocoPath);
+
+            if (!copt.IgnoreChocoVersion) { 
+                CheckCurrentChocoVersion(copt);
+            }
+
+           IVisitor visitor = (IVisitor)Activator.CreateInstance(copt.Visitor);
+           ChocoOutputFetcher cof = new ChocoOutputFetcher(copt.ChocoPath);
 
             psScriptBuilder = new PSScriptBuilder<string>(cof.Accept(visitor));
             psScriptBuilder.BuildScript();

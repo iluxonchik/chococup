@@ -23,7 +23,7 @@ namespace ChocoCup
             this.args = LIST_PACKGES_COMMAND + " " + LIST_LOCAL_PACKAGAES_ONLY_OPT;
             
             if (args != null)
-                this.args += args;
+                this.args = args;
 
             if (chocoPath != null)
                 this.chocoPath = chocoPath;

@@ -13,6 +13,7 @@ namespace ChocoCup
         public string ChocoPath { get; set; }
         public string OutFilePath { get; set; }
         public bool PrintScript { get; set; }
+        public bool IgnoreChocoVersion { get; set; }
         public Type Visitor { get; set; }
 
         public ChocoCupOptions()
