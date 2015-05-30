@@ -95,7 +95,9 @@ namespace ChocoCup
             while(!fileSaved) {
                 try
                 {
-                    Console.WriteLine(outputFilePath);
+                    if (outputFilePath == null)
+                        PrintFileNameRequestMsg();
+
                     SaveScriptToFile(outputFilePath);
                     fileSaved = true;
                 }
